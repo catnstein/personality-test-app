@@ -1,17 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { QuestionsService } from './questions.service';
-import { faker } from '@faker-js/faker';
+import { generateQuestionDto } from './helpers/test.helpers';
 
 describe('QuestionsService', () => {
   let service: QuestionsService;
-
-  const generateQuestionDto = () => ({
-    text: faker.lorem.sentence(),
-    answers: [...Array(faker.datatype.number({ min: 1, max: 10 }))].map(() => ({
-      text: faker.lorem.sentence(),
-      weight: faker.datatype.number(),
-    })),
-  });
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
