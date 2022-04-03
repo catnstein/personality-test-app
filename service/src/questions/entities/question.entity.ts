@@ -3,6 +3,9 @@ import { Answer } from './answer.entity';
 
 export class Question {
   @ApiProperty()
+  id: number;
+
+  @ApiProperty()
   text: string;
 
   @ApiProperty({ type: [Answer] })

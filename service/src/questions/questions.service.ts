@@ -8,7 +8,9 @@ export class QuestionsService {
   private questions: Question[] = [];
 
   create(createQuestionDto: CreateQuestionDto) {
-    this.questions.push(createQuestionDto);
+    const response = { ...createQuestionDto, id: this.questions.length };
+    this.questions.push(response);
+    return response;
   }
 
   findAll() {
