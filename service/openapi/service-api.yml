@@ -1,0 +1,135 @@
+openapi: 3.0.0
+paths:
+  /:
+    get:
+      operationId: AppController_getHello
+      parameters: []
+      responses:
+        "200":
+          description: ""
+  /questions:
+    post:
+      operationId: QuestionsController_create
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateQuestionDto"
+      responses:
+        "201":
+          description: ""
+      tags:
+        &a1
+        - questions
+    get:
+      operationId: QuestionsController_findAll
+      parameters: []
+      responses:
+        "200":
+          description: Returns Posts
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Question"
+      tags: *a1
+  "/questions/{id}":
+    get:
+      operationId: QuestionsController_findOne
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ""
+      tags: *a1
+    patch:
+      operationId: QuestionsController_update
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateQuestionDto"
+      responses:
+        "200":
+          description: ""
+      tags: *a1
+    delete:
+      operationId: QuestionsController_remove
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ""
+      tags: *a1
+info:
+  title: Questions example
+  description: The questions API description
+  version: "1.0"
+  contact: {}
+tags:
+  - name: questions
+    description: ""
+servers: []
+components:
+  schemas:
+    CreateQuestionDto:
+      type: object
+      properties:
+        text:
+          type: string
+        answers:
+          type: array
+          items:
+            type: string
+      required:
+        - text
+        - answers
+    Answer:
+      type: object
+      properties:
+        text:
+          type: string
+        weight:
+          type: number
+      required:
+        - text
+        - weight
+    Question:
+      type: object
+      properties:
+        text:
+          type: string
+        answers:
+          type: array
+          items:
+            $ref: "#/components/schemas/Answer"
+      required:
+        - text
+        - answers
+    UpdateQuestionDto:
+      type: object
+      properties:
+        text:
+          type: string
+        answers:
+          type: array
+          items:
+            type: string
