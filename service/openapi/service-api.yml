@@ -32,7 +32,7 @@ paths:
       parameters: []
       responses:
         "200":
-          description: Returns Questions
+          description: Returns All Questions
           content:
             application/json:
               schema:
@@ -40,48 +40,12 @@ paths:
                 items:
                   $ref: "#/components/schemas/Question"
       tags: *a1
-  "/questions/{id}":
-    get:
-      operationId: QuestionsController_findOne
-      parameters:
-        - name: id
-          required: true
-          in: path
-          schema:
-            type: string
-      responses:
-        "200":
-          description: ""
-      tags: *a1
-    patch:
-      operationId: QuestionsController_update
-      parameters:
-        - name: id
-          required: true
-          in: path
-          schema:
-            type: string
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/UpdateQuestionDto"
-      responses:
-        "200":
-          description: ""
-      tags: *a1
     delete:
-      operationId: QuestionsController_remove
-      parameters:
-        - name: id
-          required: true
-          in: path
-          schema:
-            type: string
+      operationId: QuestionsController_removeAll
+      parameters: []
       responses:
         "200":
-          description: ""
+          description: Returns No Content
       tags: *a1
 info:
   title: Questions example
@@ -131,12 +95,3 @@ components:
         - id
         - text
         - answers
-    UpdateQuestionDto:
-      type: object
-      properties:
-        text:
-          type: string
-        answers:
-          type: array
-          items:
-            $ref: "#/components/schemas/Answer"

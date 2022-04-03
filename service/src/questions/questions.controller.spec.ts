@@ -13,6 +13,7 @@ describe('QuestionsController', () => {
     }).compile();
 
     controller = module.get<QuestionsController>(QuestionsController);
+    controller.removeAll();
   });
 
   it('should be defined', () => {

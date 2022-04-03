@@ -1,11 +1,17 @@
 import { Injectable } from '@nestjs/common';
+import { initialData } from './data/initial.data';
 import { CreateQuestionDto } from './dto/create-question.dto';
-import { UpdateQuestionDto } from './dto/update-question.dto';
+import { Answer } from './entities/answer.entity';
 import { Question } from './entities/question.entity';
+import { PersonalityResult } from './enums/result.enum';
 
 @Injectable()
 export class QuestionsService {
-  private questions: Question[] = [];
+  private questions: Question[] = initialData;
+
+  removeAll() {
+    this.questions = [];
+  }
 
   create(createQuestionDto: CreateQuestionDto) {
     const response = { ...createQuestionDto, id: this.questions.length };
@@ -17,15 +23,13 @@ export class QuestionsService {
     return this.questions;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} question`;
-  }
+  computePersonality(answers: Answer[]) {
+    const average =
+      answers.reduce<number>((acc, answer) => acc + answer.weight, 0) /
+      answers.length;
 
-  update(id: number, updateQuestionDto: UpdateQuestionDto) {
-    return `This action updates a #${id} question`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} question`;
+    return average < 2
+      ? PersonalityResult.Introvert
+      : PersonalityResult.Extrovert;
   }
 }
