@@ -19,6 +19,11 @@ export class QuestionsController {
   constructor(private readonly questionsService: QuestionsService) {}
 
   @Post()
+  @ApiResponse({
+    status: 201,
+    type: Question,
+    description: 'Create Question',
+  })
   create(@Body() createQuestionDto: CreateQuestionDto) {
     return this.questionsService.create(createQuestionDto);
   }
@@ -26,9 +31,8 @@ export class QuestionsController {
   @Get()
   @ApiResponse({
     status: 200,
-    type: Question,
-    isArray: true,
-    description: 'Returns Posts',
+    type: [Question],
+    description: 'Returns Questions',
   })
   findAll() {
     return this.questionsService.findAll();

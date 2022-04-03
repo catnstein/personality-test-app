@@ -5,6 +5,6 @@ export class CreateQuestionDto {
   @ApiProperty()
   text: string;
 
-  @ApiProperty()
+  @ApiProperty({ type: [Answer] })
   answers: Answer[];
 }

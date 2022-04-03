@@ -19,7 +19,11 @@ paths:
               $ref: "#/components/schemas/CreateQuestionDto"
       responses:
         "201":
-          description: ""
+          description: Create Question
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Question"
       tags:
         &a1
         - questions
@@ -28,7 +32,7 @@ paths:
       parameters: []
       responses:
         "200":
-          description: Returns Posts
+          description: Returns Questions
           content:
             application/json:
               schema:
@@ -90,18 +94,6 @@ tags:
 servers: []
 components:
   schemas:
-    CreateQuestionDto:
-      type: object
-      properties:
-        text:
-          type: string
-        answers:
-          type: array
-          items:
-            type: string
-      required:
-        - text
-        - answers
     Answer:
       type: object
       properties:
@@ -112,7 +104,7 @@ components:
       required:
         - text
         - weight
-    Question:
+    CreateQuestionDto:
       type: object
       properties:
         text:
@@ -124,6 +116,21 @@ components:
       required:
         - text
         - answers
+    Question:
+      type: object
+      properties:
+        id:
+          type: number
+        text:
+          type: string
+        answers:
+          type: array
+          items:
+            $ref: "#/components/schemas/Answer"
+      required:
+        - id
+        - text
+        - answers
     UpdateQuestionDto:
       type: object
       properties:
@@ -132,4 +139,4 @@ components:
         answers:
           type: array
           items:
-            type: string
+            $ref: "#/components/schemas/Answer"
