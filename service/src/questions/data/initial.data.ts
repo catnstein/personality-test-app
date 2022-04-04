@@ -45,4 +45,48 @@ export const initialData: Question[] = [
       },
     ],
   },
+  {
+    id: 2,
+    text: 'You’re having an animated discussion with a colleague regarding a project that you’re in charge of. You:',
+    answers: [
+      {
+        text: 'Don’t dare contradict them',
+        weight: 0,
+      },
+      {
+        text: 'Think that they are obviously right',
+        weight: 1,
+      },
+      {
+        text: 'Defend your own point of view, tooth and nail',
+        weight: 2,
+      },
+      {
+        text: 'Continuously interrupt your colleague',
+        weight: 3,
+      },
+    ],
+  },
+  {
+    id: 3,
+    text: 'You are taking part in a guided tour of a museum. You:',
+    answers: [
+      {
+        text: 'Are a bit too far towards the back so don’t really hear what the guide is saying',
+        weight: 0,
+      },
+      {
+        text: 'Follow the group without question',
+        weight: 1,
+      },
+      {
+        text: 'Make sure that everyone is able to hear properly',
+        weight: 2,
+      },
+      {
+        text: 'Are right up the front, adding your own comments in a loud voice',
+        weight: 3,
+      },
+    ],
+  },
 ];

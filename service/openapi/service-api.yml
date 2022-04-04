@@ -1,15 +1,9 @@
 openapi: 3.0.0
 paths:
-  /:
-    get:
-      operationId: AppController_getHello
-      parameters: []
-      responses:
-        "200":
-          description: ""
   /questions:
     post:
-      operationId: QuestionsController_create
+      operationId: createQuestion
+      summary: ""
       parameters: []
       requestBody:
         required: true
@@ -28,7 +22,8 @@ paths:
         &a1
         - questions
     get:
-      operationId: QuestionsController_findAll
+      operationId: getAllQuestions
+      summary: ""
       parameters: []
       responses:
         "200":
@@ -46,6 +41,25 @@ paths:
       responses:
         "200":
           description: Returns No Content
+      tags: *a1
+  /questions/compute-personality:
+    post:
+      operationId: computePersonality
+      summary: ""
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ComputePersonalityDto"
+      responses:
+        "200":
+          description: Returns Result of the Quiz
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Personality"
       tags: *a1
 info:
   title: Questions example
@@ -95,3 +109,22 @@ components:
         - id
         - text
         - answers
+    ComputePersonalityDto:
+      type: object
+      properties:
+        answers:
+          type: array
+          items:
+            $ref: "#/components/schemas/Answer"
+      required:
+        - answers
+    Personality:
+      type: object
+      properties:
+        result:
+          type: string
+          enum:
+            - Introvert
+            - Extrovert
+      required:
+        - result

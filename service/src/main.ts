@@ -19,6 +19,8 @@ async function bootstrap() {
   fs.writeFileSync('./openapi/service-api.yml', yamlDocument);
   SwaggerModule.setup('api', app, document);
 
+  app.enableCors();
+
   await app.listen(9229);
 }
 bootstrap();

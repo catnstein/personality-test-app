@@ -1,8 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { QuestionsService } from './questions.service';
 import { generateQuestionDto } from './helpers/test.helpers';
-import { PersonalityResult } from './enums/result.enum';
+import { PersonalitySolutionEnum } from './enums/result.enum';
 import { CreateQuestionDto } from './dto/create-question.dto';
+import { ComputePersonalityDto } from './dto/compute-personality.dto';
 
 describe('QuestionsService', () => {
   let service: QuestionsService;
@@ -62,30 +63,31 @@ describe('QuestionsService', () => {
 
       it('responding with answer with weight 1 -> result is introvert', () => {
         const answer = questionDto.answers[0];
-        expect(service.computePersonality([answer])).toEqual(
-          PersonalityResult.Introvert,
-        );
+        const answersDto: ComputePersonalityDto = { answers: [answer] };
+        expect(service.computePersonality(answersDto)).toEqual({
+          result: PersonalitySolutionEnum.Introvert,
+        });
       });
 
       it('responding with answer with weight 2 -> result is introvert', () => {
         const answer = questionDto.answers[1];
-        expect(service.computePersonality([answer])).toEqual(
-          PersonalityResult.Introvert,
-        );
+        expect(service.computePersonality({ answers: [answer] })).toEqual({
+          result: PersonalitySolutionEnum.Introvert,
+        });
       });
 
       it('responding with answer with weight 3 -> result is introvert', () => {
         const answer = questionDto.answers[2];
-        expect(service.computePersonality([answer])).toEqual(
-          PersonalityResult.Extrovert,
-        );
+        expect(service.computePersonality({ answers: [answer] })).toEqual({
+          result: PersonalitySolutionEnum.Extrovert,
+        });
       });
 
       it('responding with answer with weight 4 -> result is introvert', () => {
         const answer = questionDto.answers[3];
-        expect(service.computePersonality([answer])).toEqual(
-          PersonalityResult.Extrovert,
-        );
+        expect(service.computePersonality({ answers: [answer] })).toEqual({
+          result: PersonalitySolutionEnum.Extrovert,
+        });
       });
     });
 
@@ -95,9 +97,11 @@ describe('QuestionsService', () => {
         const answer1 = questionDtos[0].answers[0];
         const answer2 = questionDtos[1].answers[1];
 
-        expect(service.computePersonality([answer1, answer2])).toEqual(
-          PersonalityResult.Introvert,
-        );
+        expect(
+          service.computePersonality({ answers: [answer1, answer2] }),
+        ).toEqual({
+          result: PersonalitySolutionEnum.Introvert,
+        });
       });
 
       it('having submitted 2 questions with weight < 2 -> result is introvert', () => {
@@ -105,9 +109,9 @@ describe('QuestionsService', () => {
         const answer1 = questionDtos[0].answers[0];
         const answer2 = questionDtos[1].answers[1];
 
-        expect(service.computePersonality([answer1, answer2])).toEqual(
-          PersonalityResult.Introvert,
-        );
+        expect(
+          service.computePersonality({ answers: [answer1, answer2] }),
+        ).toEqual({ result: PersonalitySolutionEnum.Introvert });
       });
 
       it('having submitted 2 questions with average > 2 -> result is extrovert', () => {
@@ -115,9 +119,11 @@ describe('QuestionsService', () => {
         const answer1 = questionDtos[0].answers[1];
         const answer2 = questionDtos[1].answers[3];
 
-        expect(service.computePersonality([answer1, answer2])).toEqual(
-          PersonalityResult.Extrovert,
-        );
+        expect(
+          service.computePersonality({ answers: [answer1, answer2] }),
+        ).toEqual({
+          result: PersonalitySolutionEnum.Extrovert,
+        });
       });
     });
 
@@ -128,9 +134,9 @@ describe('QuestionsService', () => {
         const answer2 = questionDtos[1].answers[1];
         const answer3 = questionDtos[2].answers[1];
 
-        expect(service.computePersonality([answer1, answer2, answer3])).toEqual(
-          PersonalityResult.Introvert,
-        );
+        expect(
+          service.computePersonality({ answers: [answer1, answer2, answer3] }),
+        ).toEqual({ result: PersonalitySolutionEnum.Introvert });
       });
 
       it('having submitted 3 questions with weight < 2 -> result is introvert', () => {
@@ -139,9 +145,9 @@ describe('QuestionsService', () => {
         const answer2 = questionDtos[1].answers[1];
         const answer3 = questionDtos[2].answers[3];
 
-        expect(service.computePersonality([answer1, answer2, answer3])).toEqual(
-          PersonalityResult.Introvert,
-        );
+        expect(
+          service.computePersonality({ answers: [answer1, answer2, answer3] }),
+        ).toEqual({ result: PersonalitySolutionEnum.Introvert });
       });
 
       it('having submitted 3 questions with average > 2 -> result is extrovert', () => {
@@ -150,9 +156,9 @@ describe('QuestionsService', () => {
         const answer2 = questionDtos[1].answers[3];
         const answer3 = questionDtos[2].answers[3];
 
-        expect(service.computePersonality([answer1, answer2, answer3])).toEqual(
-          PersonalityResult.Extrovert,
-        );
+        expect(
+          service.computePersonality({ answers: [answer1, answer2, answer3] }),
+        ).toEqual({ result: PersonalitySolutionEnum.Extrovert });
       });
 
       it('having submitted 3 questions with average == 2 -> result is introvert', () => {
@@ -161,9 +167,9 @@ describe('QuestionsService', () => {
         const answer2 = questionDtos[1].answers[1];
         const answer3 = questionDtos[2].answers[1];
 
-        expect(service.computePersonality([answer1, answer2, answer3])).toEqual(
-          PersonalityResult.Introvert,
-        );
+        expect(
+          service.computePersonality({ answers: [answer1, answer2, answer3] }),
+        ).toEqual({ result: PersonalitySolutionEnum.Introvert });
       });
     });
   });

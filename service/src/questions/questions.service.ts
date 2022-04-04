@@ -1,9 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { initialData } from './data/initial.data';
+import { ComputePersonalityDto } from './dto/compute-personality.dto';
 import { CreateQuestionDto } from './dto/create-question.dto';
-import { Answer } from './entities/answer.entity';
+import { Personality } from './entities/personality-result.entity';
 import { Question } from './entities/question.entity';
-import { PersonalityResult } from './enums/result.enum';
+import { PersonalitySolutionEnum } from './enums/result.enum';
 
 @Injectable()
 export class QuestionsService {
@@ -23,13 +24,22 @@ export class QuestionsService {
     return this.questions;
   }
 
-  computePersonality(answers: Answer[]) {
+  computePersonality(
+    computePersonalityDto: ComputePersonalityDto,
+  ): Personality {
     const average =
-      answers.reduce<number>((acc, answer) => acc + answer.weight, 0) /
-      answers.length;
+      computePersonalityDto.answers.reduce<number>(
+        (acc, answer) => acc + answer.weight,
+        0,
+      ) / computePersonalityDto.answers.length;
 
-    return average < 2
-      ? PersonalityResult.Introvert
-      : PersonalityResult.Extrovert;
+    const result = {
+      result:
+        average < 2
+          ? PersonalitySolutionEnum.Introvert
+          : PersonalitySolutionEnum.Extrovert,
+    };
+
+    return result;
   }
 }
