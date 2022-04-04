@@ -3,7 +3,8 @@ import { Test } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import { QuestionsModule } from '../src/questions/questions.module';
 import { generateQuestionDto } from '../src/questions/helpers/test.helpers';
-import { CreateQuestionDto } from 'src/questions/dto/create-question.dto';
+import { CreateQuestionDto } from '../src/questions/dto/create-question.dto';
+import { PersonalitySolutionEnum } from '../src/questions/enums/result.enum';
 
 describe('AppController (e2e)', () => {
   let app: INestApplication;
@@ -15,6 +16,7 @@ describe('AppController (e2e)', () => {
 
     app = moduleFixture.createNestApplication();
     await app.init();
+    await request(app.getHttpServer()).delete('/questions');
   });
 
   afterEach(async () => {
@@ -30,7 +32,7 @@ describe('AppController (e2e)', () => {
   };
 
   describe('POST /questions', () => {
-    it('POST /questions returns the created resource', async () => {
+    it('returns the created resource', async () => {
       const resource = generateQuestionDto();
       const { body } = await createQuestion(resource);
       delete body.id;
@@ -55,6 +57,17 @@ describe('AppController (e2e)', () => {
         .get('/questions')
         .expect(200)
         .expect([createQuestionResponse.body]);
+    });
+  });
+
+  describe('POST /questions/compute-personality', () => {
+    it('introvert - returns appropriate response', async () => {
+      const createQuestionDto = generateQuestionDto();
+      return request(app.getHttpServer())
+        .post('/questions/compute-personality')
+        .send({ answers: [createQuestionDto.answers[3]] })
+        .expect(201)
+        .expect({ result: PersonalitySolutionEnum.Extrovert });
     });
   });
 });
