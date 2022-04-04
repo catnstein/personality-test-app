@@ -2,7 +2,7 @@ import { Box, Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { Paths } from "../../routes/paths.enum";
 
-export function Home() {
+export function HomePage() {
   const navigate = useNavigate();
 
   const handleQuizRedirect = () => {
